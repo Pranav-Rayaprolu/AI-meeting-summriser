@@ -1,7 +1,7 @@
 # 🚀 Meeting Summariser AI
 
 <p align="center">
-  <img src="assets/summariser.png" alt="Meeting Summariser Logo" width="120" style="border-radius: 24px; box-shadow: 0 4px 32px #0002;">
+  <img src="assets/logo.png" alt="Meeting Summariser Logo" width="120" style="border-radius: 24px; box-shadow: 0 4px 32px #0002;">
 </p>
 
 > **A premium,full-stack app for summarizing meetings, extracting action items, and analytics.**
@@ -12,18 +12,33 @@
   <b>✨ See it in action:</b>
 </p>
 
-<p align="center">
-  <img src="assets/Analytics%20Dashboard.png" alt="Analytics Dashboard" width="320" style="margin: 0 12px; border-radius: 16px; box-shadow: 0 2px 16px #0001;">
-  <img src="assets/Action%20Items.png" alt="Action Items" width="320" style="margin: 0 12px; border-radius: 16px; box-shadow: 0 2px 16px #0001;">
-  <img src="assets/meetings.png" alt="Meetings" width="320" style="margin: 0 12px; border-radius: 16px; box-shadow: 0 2px 16px #0001;">
-  <img src="assets/sample.png" alt="Meeting transcript upload" width="320" style="margin: 0 12px; border-radius: 16px; box-shadow: 0 2px 16px #0001;">
-</p>
-
-<p align="center">
-  <sub>
-    <b>Analytics Dashboard</b> &nbsp;|&nbsp; <b>Action Items</b> &nbsp;|&nbsp; <b>Meetings</b> &nbsp;|&nbsp; <b>Sample</b>
-  </sub>
-</p>
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="assets/Analytics%20Dashboard.png" alt="Analytics Dashboard" width="220"><br/>
+      <b>Analytics Dashboard</b>
+    </td>
+    <td align="center">
+      <img src="assets/Action%20Items.png" alt="Action Items" width="220"><br/>
+      <b>Action Items</b>
+    </td>
+    <td align="center">
+      <img src="assets/meetings.png" alt="Meetings" width="220"><br/>
+      <b>Meetings</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="assets/summariser.png" alt="Meeting Summary" width="220"><br/>
+      <b>Meeting Summary</b>
+    </td>
+    <td align="center">
+      <img src="assets/sample.png" alt="Sample Screenshot" width="220"><br/>
+      <b>Sample</b>
+    </td>
+    <td></td>
+  </tr>
+</table>
 
 ---
 

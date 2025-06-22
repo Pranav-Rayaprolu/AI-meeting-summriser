@@ -1,6 +1,7 @@
 import axios, { InternalAxiosRequestConfig } from 'axios';
 import { Meeting, ActionItem, Analytics } from '../types';
-import { v5 as uuidv5 } from 'uuid';
+// @ts-ignore: Vite/TypeScript may not resolve this, but it works for browser builds
+import { v5 as uuidv5 } from 'uuid/dist/esm-browser';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8001/api';
 
@@ -135,7 +136,7 @@ export const getMeetingActionItems = async (meetingId: string): Promise<{ data: 
   };
 };
 
-export const USER_ID_NAMESPACE = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
-export function getUuidUserId(firebaseUid: string) {
-  return uuidv5(firebaseUid, USER_ID_NAMESPACE);
+const NAMESPACE = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
+export function getUuidUserId(firebaseUid: string): string {
+  return uuidv5(firebaseUid, NAMESPACE);
 } 

@@ -1,13 +1,29 @@
 # 🚀 Meeting Summariser AI
 
-![Logo](./assets/logo.png)
+<p align="center">
+  <img src="assets/summariser.png" alt="Meeting Summariser Logo" width="120" style="border-radius: 24px; box-shadow: 0 4px 32px #0002;">
+</p>
 
 > **A premium,full-stack app for summarizing meetings, extracting action items, and analytics.**
 
 ---
 
-![Screenshot - Dashboard](./assets/screenshot-dashboard.png)
-![Screenshot - Login](./assets/screenshot-login.png)
+<p align="center">
+  <b>✨ See it in action:</b>
+</p>
+
+<p align="center">
+  <img src="assets/Analytics%20Dashboard.png" alt="Analytics Dashboard" width="320" style="margin: 0 12px; border-radius: 16px; box-shadow: 0 2px 16px #0001;">
+  <img src="assets/Action%20Items.png" alt="Action Items" width="320" style="margin: 0 12px; border-radius: 16px; box-shadow: 0 2px 16px #0001;">
+  <img src="assets/meetings.png" alt="Meetings" width="320" style="margin: 0 12px; border-radius: 16px; box-shadow: 0 2px 16px #0001;">
+  <img src="assets/sample.png" alt="Meeting transcript upload" width="320" style="margin: 0 12px; border-radius: 16px; box-shadow: 0 2px 16px #0001;">
+</p>
+
+<p align="center">
+  <sub>
+    <b>Analytics Dashboard</b> &nbsp;|&nbsp; <b>Action Items</b> &nbsp;|&nbsp; <b>Meetings</b> &nbsp;|&nbsp; <b>Sample</b>
+  </sub>
+</p>
 
 ---
 

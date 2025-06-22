@@ -7,6 +7,8 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from utils.config import settings
 import os
 import uuid
+from models.database import async_session, User
+from sqlalchemy.future import select
 
 logger = logging.getLogger(__name__)
 
@@ -61,6 +63,17 @@ async def verify_firebase_token(
                     "avatar_url": None
                 }
                 logger.info(f"Development token verified for user: {user_info['email']}")
+                # Insert dev user if not present
+                async with async_session() as session:
+                    result = await session.execute(select(User).where(User.user_id == user_info["user_id"]))
+                    existing_user = result.scalar_one_or_none()
+                    if not existing_user:
+                        user = User(user_id=user_info["user_id"], email=user_info["email"], name=user_info["name"] or user_info["email"].split("@")[0], avatar_url=None)
+                        session.add(user)
+                        try:
+                            await session.commit()
+                        except Exception as e:
+                            logger.warning(f"User insert (dev) failed: {e}")
                 return user_info
             except jwt.InvalidTokenError:
                 pass
@@ -76,6 +89,17 @@ async def verify_firebase_token(
             "avatar_url": decoded_token.get("picture")
         }
         logger.info(f"Firebase token verified for user: {user_info['email']}")
+        # Insert user if not present
+        async with async_session() as session:
+            result = await session.execute(select(User).where(User.user_id == user_info["user_id"]))
+            existing_user = result.scalar_one_or_none()
+            if not existing_user:
+                user = User(user_id=user_info["user_id"], email=user_info["email"], name=user_info["name"] or user_info["email"].split("@")[0], avatar_url=user_info["avatar_url"])
+                session.add(user)
+                try:
+                    await session.commit()
+                except Exception as e:
+                    logger.warning(f"User insert failed: {e}")
         return user_info
         
     except Exception as e:

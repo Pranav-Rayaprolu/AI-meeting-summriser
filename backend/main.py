@@ -9,6 +9,11 @@ from fastapi.security import HTTPBearer
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 import uuid
+from fastapi.responses import JSONResponse
+from fastapi.requests import Request
+from fastapi import status
+from fastapi.exception_handlers import RequestValidationError
+from fastapi.exceptions import HTTPException as FastAPIHTTPException
 
 from api.endpoints import meetings, action_items, analytics
 from auth.firebase_jwt import verify_firebase_token
@@ -84,6 +89,24 @@ security = HTTPBearer()
 app.include_router(meetings.router, prefix="/api", tags=["meetings"])
 app.include_router(action_items.router, prefix="/api", tags=["action-items"])
 app.include_router(analytics.router, prefix="/api", tags=["analytics"])
+
+# Global exception handler for HTTPException to ensure CORS headers
+@app.exception_handler(FastAPIHTTPException)
+async def http_exception_handler(request: Request, exc: FastAPIHTTPException):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={"detail": exc.detail},
+        headers={"Access-Control-Allow-Origin": request.headers.get("origin", "*")}
+    )
+
+# Global exception handler for generic Exception to ensure CORS headers
+@app.exception_handler(Exception)
+async def generic_exception_handler(request: Request, exc: Exception):
+    return JSONResponse(
+        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        content={"detail": str(exc)},
+        headers={"Access-Control-Allow-Origin": request.headers.get("origin", "*")}
+    )
 
 @app.get("/")
 async def root():

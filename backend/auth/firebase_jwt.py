@@ -5,6 +5,7 @@ from typing import Optional
 from fastapi import HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from utils.config import settings
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -24,10 +25,11 @@ try:
     import firebase_admin
     from firebase_admin import credentials, auth
     
-    # Load the service account key
-    with open(settings.FIREBASE_ADMIN_SDK_PATH, 'r') as f:
-        service_account_info = json.load(f)
-    
+    # Load the service account key from environment variable
+    firebase_json = os.environ.get("FIREBASE_ADMIN_SDK_JSON")
+    if not firebase_json:
+        raise Exception("FIREBASE_ADMIN_SDK_JSON environment variable not set")
+    service_account_info = json.loads(firebase_json)
     cred = credentials.Certificate(service_account_info)
     firebase_admin.initialize_app(cred)
     firebase_auth = auth

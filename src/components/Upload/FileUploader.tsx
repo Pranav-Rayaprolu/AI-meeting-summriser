@@ -80,7 +80,13 @@ const FileUploader: React.FC = () => {
   };
 
   const handleUpload = async () => {
-    if (!uploadedFile || !meetingTitle.trim() || !authState.user) return;
+    const token = localStorage.getItem("authToken");
+    if (!uploadedFile || !meetingTitle.trim()) return;
+    if (!authState.user || !token) {
+      setErrorMessage("You must be logged in to upload a meeting transcript.");
+      setUploadStatus("error");
+      return;
+    }
 
     setIsUploading(true);
     setUploadStatus("idle");
@@ -92,14 +98,9 @@ const FileUploader: React.FC = () => {
       formData.append("file", uploadedFile);
 
       // Debug logs
-      const token = localStorage.getItem("authToken");
       console.log("Uploading file:", uploadedFile);
       console.log("Meeting title:", meetingTitle.trim());
-      if (token) {
-        console.log("JWT token being sent:", token);
-      } else {
-        console.warn("No JWT token found in localStorage! Upload will fail.");
-      }
+      console.log("JWT token being sent:", token);
 
       await addMeeting(formData);
       setUploadStatus("success");
@@ -113,8 +114,14 @@ const FileUploader: React.FC = () => {
       }, 2000);
     } catch (error: any) {
       console.error("Upload failed:", error);
+      if (error?.response?.status === 401 || error?.response?.status === 403) {
+        setErrorMessage(
+          "Your session has expired or you are not authorized. Please log in again."
+        );
+      } else {
+        setErrorMessage(error.message || "Failed to upload file.");
+      }
       setUploadStatus("error");
-      setErrorMessage(error.message || "Failed to upload file.");
     } finally {
       setIsUploading(false);
     }

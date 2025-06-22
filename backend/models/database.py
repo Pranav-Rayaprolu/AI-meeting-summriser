@@ -129,6 +129,8 @@ class MeetingRead(BaseModel):
     transcript: str
     status: str
     created_at: datetime
+    class Config:
+        orm_mode = True
 
 class SummaryResponse(BaseModel):
     summary_id: str

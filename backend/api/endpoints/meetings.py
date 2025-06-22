@@ -60,7 +60,8 @@ async def upload_meeting(
     # Start background task
     process_meeting_summary.delay(new_meeting.meeting_id)
 
-    return new_meeting
+    # Return a serializable Pydantic model
+    return MeetingRead.from_orm(new_meeting)
 
 
 @router.get("/meeting/{meeting_id}/summary", response_model=SummaryResponse)

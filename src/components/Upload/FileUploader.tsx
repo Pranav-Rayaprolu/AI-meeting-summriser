@@ -90,8 +90,16 @@ const FileUploader: React.FC = () => {
       const formData = new FormData();
       formData.append("title", meetingTitle.trim());
       formData.append("file", uploadedFile);
-      const uuid = await getUuidUserId(authState.user.id);
-      formData.append("user_id", uuid);
+
+      // Debug logs
+      const token = localStorage.getItem("authToken");
+      console.log("Uploading file:", uploadedFile);
+      console.log("Meeting title:", meetingTitle.trim());
+      if (token) {
+        console.log("JWT token being sent:", token);
+      } else {
+        console.warn("No JWT token found in localStorage! Upload will fail.");
+      }
 
       await addMeeting(formData);
       setUploadStatus("success");

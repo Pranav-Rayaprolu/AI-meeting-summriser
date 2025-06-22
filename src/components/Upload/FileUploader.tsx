@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import { Upload, File, X, CheckCircle, AlertCircle } from "lucide-react";
 import { useApp } from "../../context/AppContext";
 import { useAuth } from "../../context/AuthContext";
+import { getUuidUserId } from "../../utils/getUuidUserId";
 
 const FileUploader: React.FC = () => {
   const [isDragActive, setIsDragActive] = useState(false);
@@ -83,11 +84,14 @@ const FileUploader: React.FC = () => {
 
     setIsUploading(true);
     setUploadStatus("idle");
+    setErrorMessage("");
 
     try {
       const formData = new FormData();
       formData.append("title", meetingTitle.trim());
       formData.append("file", uploadedFile);
+      const uuid = await getUuidUserId(authState.user.id);
+      formData.append("user_id", uuid);
 
       await addMeeting(formData);
       setUploadStatus("success");
@@ -102,9 +106,7 @@ const FileUploader: React.FC = () => {
     } catch (error: any) {
       console.error("Upload failed:", error);
       setUploadStatus("error");
-      setErrorMessage(
-        error.response?.data?.detail || "An unexpected error occurred."
-      );
+      setErrorMessage(error.message || "Failed to upload file.");
     } finally {
       setIsUploading(false);
     }

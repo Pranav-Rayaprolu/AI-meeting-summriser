@@ -6,6 +6,7 @@ from fastapi import HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from utils.config import settings
 import os
+import uuid
 
 logger = logging.getLogger(__name__)
 
@@ -62,20 +63,18 @@ async def verify_firebase_token(
                 logger.info(f"Development token verified for user: {user_info['email']}")
                 return user_info
             except jwt.InvalidTokenError:
-                # Not a development token, continue with Firebase verification
                 pass
         
         # Verify the token with Firebase
         decoded_token = firebase_auth.verify_id_token(token)
-        
-        # Extract user information
+        # Convert Firebase uid to UUID
+        user_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, decoded_token["uid"]))
         user_info = {
-            "user_id": decoded_token["uid"],
+            "user_id": user_uuid,
             "email": decoded_token.get("email"),
             "name": decoded_token.get("name", decoded_token.get("email", "").split("@")[0]),
             "avatar_url": decoded_token.get("picture")
         }
-        
         logger.info(f"Firebase token verified for user: {user_info['email']}")
         return user_info
         

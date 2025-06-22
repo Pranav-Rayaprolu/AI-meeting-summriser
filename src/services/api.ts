@@ -1,6 +1,6 @@
 import axios, { InternalAxiosRequestConfig } from 'axios';
 import { Meeting, ActionItem, Analytics } from '../types';
-import { v5 as uuidv5 } from 'uuid';
+import { getUuidUserId } from '../utils/getUuidUserId';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8001/api';
 
@@ -133,9 +133,4 @@ export const getMeetingActionItems = async (meetingId: string): Promise<{ data: 
   return {
     data: response.data.map(transformActionItem)
   };
-};
-
-const NAMESPACE = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
-export function getUuidUserId(firebaseUid: string): string {
-  return uuidv5(firebaseUid, NAMESPACE);
-} 
+}; 

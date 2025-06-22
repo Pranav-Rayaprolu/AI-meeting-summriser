@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
+import uuid
 
 from api.endpoints import meetings, action_items, analytics
 from auth.firebase_jwt import verify_firebase_token
@@ -107,9 +108,11 @@ async def dev_login(email: str = Form(...), password: str = Form(...)):
     if not password or len(password) < 3:
         raise HTTPException(status_code=400, detail="Password must be at least 3 characters")
 
-    # Create a mock JWT token
+    # Create a mock Firebase uid and convert to UUID
+    mock_uid = email
+    user_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, mock_uid))
     payload = {
-        "user_id": "dev-user-123",
+        "user_id": user_uuid,
         "email": email,
         "name": email.split("@")[0],
         "exp": datetime.utcnow() + timedelta(hours=24)

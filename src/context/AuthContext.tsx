@@ -21,6 +21,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   signup: (email: string, password: string, name: string) => Promise<void>;
   logout: () => void;
+  firebaseUid?: string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -167,7 +168,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 
   return (
-    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+    <AuthContext.Provider
+      value={{ ...contextValue, firebaseUid: state.user?.id }}
+    >
+      {children}
+    </AuthContext.Provider>
   );
 };
 

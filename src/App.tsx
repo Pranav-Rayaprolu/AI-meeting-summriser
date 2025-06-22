@@ -1,5 +1,5 @@
 // @refresh reset
-import React from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -37,9 +37,15 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = React.memo(
 );
 
 const AppRoutes: React.FC = () => {
-  const { state } = useAuth();
+  const { state: authState } = useAuth();
 
-  if (state.isLoading) {
+  useEffect(() => {
+    if (authState.user) {
+      console.log("Firebase UID:", authState.user.id);
+    }
+  }, [authState.user]);
+
+  if (authState.isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
@@ -56,7 +62,7 @@ const AppRoutes: React.FC = () => {
       <Route
         path="/login"
         element={
-          state.isAuthenticated ? (
+          authState.isAuthenticated ? (
             <Navigate to="/dashboard" replace />
           ) : (
             <LoginForm />
@@ -66,7 +72,7 @@ const AppRoutes: React.FC = () => {
       <Route
         path="/signup"
         element={
-          state.isAuthenticated ? (
+          authState.isAuthenticated ? (
             <Navigate to="/dashboard" replace />
           ) : (
             <SignupForm />
@@ -163,7 +169,7 @@ const AppRoutes: React.FC = () => {
         path="/"
         element={
           <Navigate
-            to={state.isAuthenticated ? "/dashboard" : "/login"}
+            to={authState.isAuthenticated ? "/dashboard" : "/login"}
             replace
           />
         }

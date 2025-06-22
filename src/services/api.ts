@@ -1,5 +1,6 @@
 import axios, { InternalAxiosRequestConfig } from 'axios';
 import { Meeting, ActionItem, Analytics } from '../types';
+import { v5 as uuidv5 } from 'uuid';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8001/api';
 
@@ -101,7 +102,8 @@ export const updateActionItem = async (id: string, updates: Partial<ActionItem>)
 };
 
 // Create a new action item for a meeting
-export const createActionItem = async (meetingId: string, data: Partial<ActionItem>): Promise<{ data: ActionItem }> => {
+export const createActionItem = async (meetingId: string, data: Partial<ActionItem> & { user_id: string }): Promise<{ data: ActionItem }> => {
+  // data.user_id should be a UUIDv5
   const response = await api.post(`/meeting/${meetingId}/action-items`, data);
   return { data: transformActionItem(response.data) };
 };
@@ -131,4 +133,9 @@ export const getMeetingActionItems = async (meetingId: string): Promise<{ data: 
   return {
     data: response.data.map(transformActionItem)
   };
-}; 
+};
+
+export const USER_ID_NAMESPACE = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
+export function getUuidUserId(firebaseUid: string) {
+  return uuidv5(firebaseUid, USER_ID_NAMESPACE);
+} 

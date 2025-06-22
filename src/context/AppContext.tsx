@@ -10,6 +10,7 @@ import React, {
 import { Meeting, ActionItem, Analytics } from "../types";
 import * as api from "../services/api";
 import { useAuth } from "./AuthContext";
+import { getUuidUserId } from "../services/api";
 
 interface AppState {
   meetings: Meeting[];
@@ -202,6 +203,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const addMeeting = useMemo(
     () => async (formData: FormData) => {
+      if (authState.user) {
+        formData.set("user_id", getUuidUserId(authState.user.id));
+      }
       dispatch({ type: "SET_LOADING", payload: true });
       try {
         const response = await api.uploadMeeting(formData);
@@ -253,7 +257,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
         dispatch({ type: "SET_LOADING", payload: false });
       }
     },
-    [fetchActionItems, fetchAnalytics]
+    [fetchActionItems, fetchAnalytics, authState.user]
   );
 
   const updateMeeting = useMemo(
@@ -280,6 +284,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
       }
     },
     []
+  );
+
+  const createActionItem = useMemo(
+    () => async (meetingId: string, data: Partial<ActionItem>) => {
+      if (!authState.user) throw new Error("User not authenticated");
+      const user_id = getUuidUserId(authState.user.id);
+      return await api.createActionItem(meetingId, { ...data, user_id });
+    },
+    [authState.user]
   );
 
   const contextValue = useMemo(

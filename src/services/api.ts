@@ -1,7 +1,6 @@
 import axios, { InternalAxiosRequestConfig } from 'axios';
 import { Meeting, ActionItem, Analytics } from '../types';
-// @ts-ignore: Vite/TypeScript may not resolve this, but it works for browser builds
-import { v5 as uuidv5 } from 'uuid/dist/esm-browser';
+import { v5 as uuidv5 } from 'uuid';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8001/api';
 

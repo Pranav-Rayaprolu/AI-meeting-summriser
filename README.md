@@ -159,5 +159,5 @@ Meeting Summariser/
 - [FastAPI](https://fastapi.tiangolo.com/)
 - [TailwindCSS](https://tailwindcss.com/)
 - [Vercel](https://vercel.com/) (for frontend deployment)
-- [Render] (for backend deployment)
+- [Render](https://render.com/) (for backend deployment)
 ---

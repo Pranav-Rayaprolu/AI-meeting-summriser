@@ -158,6 +158,6 @@ Meeting Summariser/
 - [Firebase](https://firebase.google.com/)
 - [FastAPI](https://fastapi.tiangolo.com/)
 - [TailwindCSS](https://tailwindcss.com/)
-- [Vercel](https://vercel.com/) (for deployment)
-- [backend]
+- [Vercel](https://vercel.com/) (for frontend deployment)
+- [Render] (for backend deployment)
 ---

@@ -1,4 +1,5 @@
 # 🚀 Meeting Summariser AI
+![AI Summarisation](https://drive.google.com/file/d/1iuh2z5UCdHa66C3EfJRdUgNonSODhukb/view?usp=sharing)
 
 <p align="center">
   <img src="assets/logo.png" alt="Meeting Summariser Logo" width="120">
